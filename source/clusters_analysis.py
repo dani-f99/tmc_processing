@@ -1,8 +1,6 @@
 from source.helpers import read_json
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
-import numpy as np
 import json
 import sys
 import os
@@ -11,7 +9,9 @@ import os
 
 class cluster_analysis():
     def __init__(self,
-                 subject_id : int):
+                 subject_id : int,
+                 metadata_labels : list,
+                 metadata_relabels : list = None):
         
         """
         subject_id : int -> number of the subject on which the analysis will be performed.
@@ -20,32 +20,24 @@ class cluster_analysis():
         # Config imports
         self.subject = str(subject_id)
         self.config = read_json()
-        str_subject = str(self.subject)
         
         # file paths
-        self.path_tmc_input = os.path.join("tmc_input", f"{self.config["database"]["db_name"]}-subject{str_subject }")
-        self.path_tmc_output = os.path.join("tmc_output", f"{self.config["database"]["db_name"]}-subject{str_subject }")
-        self.path_analysis = os.path.join("clusters_analysis", f"{self.config["database"]["db_name"]}-subject{str_subject }")
+        self.path_tmc_input = os.path.join("input", f"{self.config["database"]}-subject{self.subject}")
+        self.path_tmc_output = os.path.join("input", f"{self.config["database"]}-subject{self.subject}")
+        self.path_analysis = os.path.join("output", f"{self.config["database"]}-subject{self.subject}")
 
-        # Creating folder if not exists
-        if os.path.exists(self.path_analysis) is False:
-            try:
-                os.mkdir(self.path_analysis)
-            except:
-                os.mkdir("clusters_analysis")
-                os.mkdir("clusters_analysis", f"{self.config["database"]["db_name"]}-subject{str_subject}")
 
 
         # Metadata labels dict
-        labels = self.config["database"]["metadata_labels"].split(",")
-        relabels = self.config["database"]["metadata_relabels"].split(",")
-        if (relabels != "") & (len(relabels) == len(labels)):
+        labels = metadata_labels
+        relabels = metadata_relabels
+        if (relabels != None) & (len(relabels) == len(labels)):
             self.labels_dict = {i:j for i,j in zip(labels, relabels)}
         else:
             self.labels_dict = {i:j for i,j in zip(labels, labels)}
 
         # Required files
-        tmc_files = ["cells_clusters_info.csv", "cluster_list.json", "cluster_tree.json", "clusters.csv", "graph.json", "node_info.csv"]
+        tmc_files = ["cluster_tree.json", "cells_clusters_info.csv"]
         self.req_files = {}
 
         # TMC output files -> paths into required dict

@@ -7,7 +7,6 @@
 # my program files to ignore
 input
 output
-config.json
 
 # User-specific files
 *.rsuser

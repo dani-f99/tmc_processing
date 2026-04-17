@@ -1,0 +1,26 @@
+label1,label2,value
+Non-Spike B.2 weeks,Non-Spike B.2 weeks,0.3832764429994179
+Non-Spike B.2 weeks,Non-Spike B.1 baseline,0.21814751841653734
+Non-Spike B.2 weeks,Non-Spike B.4 weeks,0.6036995295645309
+Non-Spike B.2 weeks,Spike+ Mem B.2 weeks,0.1962097247100145
+Non-Spike B.2 weeks,Spike+ Mem B.4 weeks,0.22687777286246816
+Non-Spike B.1 baseline,Non-Spike B.2 weeks,0.21814751841653734
+Non-Spike B.1 baseline,Non-Spike B.1 baseline,0.7814532307294816
+Non-Spike B.1 baseline,Non-Spike B.4 weeks,6.225131405646468e-2
+Non-Spike B.1 baseline,Spike+ Mem B.2 weeks,4.9173687678040104e-2
+Non-Spike B.1 baseline,Spike+ Mem B.4 weeks,3.483866245741614e-3
+Non-Spike B.4 weeks,Non-Spike B.2 weeks,0.6036995295645309
+Non-Spike B.4 weeks,Non-Spike B.1 baseline,6.225131405646468e-2
+Non-Spike B.4 weeks,Non-Spike B.4 weeks,0.3905761855451033
+Non-Spike B.4 weeks,Spike+ Mem B.2 weeks,0.16779542842168926
+Non-Spike B.4 weeks,Spike+ Mem B.4 weeks,0.19384840672731024
+Spike+ Mem B.2 weeks,Non-Spike B.2 weeks,0.1962097247100145
+Spike+ Mem B.2 weeks,Non-Spike B.1 baseline,4.9173687678040104e-2
+Spike+ Mem B.2 weeks,Non-Spike B.4 weeks,0.16779542842168926
+Spike+ Mem B.2 weeks,Spike+ Mem B.2 weeks,0.7629786614540395
+Spike+ Mem B.2 weeks,Spike+ Mem B.4 weeks,7.113647703285124e-2
+Spike+ Mem B.4 weeks,Non-Spike B.2 weeks,0.22687777286246816
+Spike+ Mem B.4 weeks,Non-Spike B.1 baseline,3.483866245741614e-3
+Spike+ Mem B.4 weeks,Non-Spike B.4 weeks,0.19384840672731024
+Spike+ Mem B.4 weeks,Spike+ Mem B.2 weeks,7.113647703285124e-2
+Spike+ Mem B.4 weeks,Spike+ Mem B.4 weeks,0.7339755025008603
