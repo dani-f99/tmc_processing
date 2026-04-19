@@ -37,7 +37,7 @@ class cluster_analysis():
             self.labels_dict = {i:j for i,j in zip(labels, labels)}
 
         # Required files
-        tmc_files = ["cluster_tree.json", "cells_clusters_info.csv"]
+        tmc_files = ["cluster_tree.json", "clusters.csv"]
         self.req_files = {}
 
         # TMC output files -> paths into required dict
@@ -56,12 +56,26 @@ class cluster_analysis():
             print(f"Missing files: {[i for i,j in zip(list(self.req_files.values()), bool_files) if j is False]}")
 
         # Joining metadata to cells-clusters fule:
-        self.cell_clusters = pd.read_csv(self.req_files["cells_clusters_info"], index_col=0)
+        self.cell_clusters = pd.read_csv(self.req_files["clusters"], index_col=0)
 
         for label in list(self.labels_dict.keys()):
             temp_lfile = pd.read_csv(self.req_files[label], index_col=0)
             temp_lfile.columns = [self.labels_dict[label]]
             self.cell_clusters = pd.merge(left=self.cell_clusters, right=temp_lfile, left_index=True, right_index=True, how="inner")
+
+
+        #########
+        ### Concatinating labels and saving the results
+        labels_colnames = list(self.labels_dict.values())
+
+        val_label = self.cell_clusters[labels_colnames[0]]
+        for i in labels_colnames[1:]:
+            val_label += "." + self.cell_clusters[i]
+
+        val_item = self.cell_clusters.index
+
+        self.labels_concat = pd.DataFrame({"item":val_item, "label":val_label}).set_index("item")
+        self.labels_concat.to_csv(os.path.join(self.path_tmc_output,"labels_joined.csv"))
 
 
         #########################################

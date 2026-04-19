@@ -10,30 +10,31 @@ import os
 
 
 ################################################
-def clumpiness_json(path_node_info : str = None,
+def clumpiness_json(subject : int,
+                    path_node_info : str = None,
                     path_labels : str = None):
     """
-    path_node_info : str -> alternative path of the `cells_clusters_info.csv` file, defualt path is in `intpu/db-subject/cells_clusters_info.csv`.
-    path_labels : str -> alternative path for the `labels.csv` file, defualt path is in `intpu/db-subject/labels.json`.
+    path_node_info : str -> alternative path of the `clusters.csv` file, defualt path is in `input/db-subject/clusters.csv`.
+    path_labels : str -> alternative path for the `labels.csv` file, defualt path is in `output/db-subject/labels_joined.json`.
     """
 
     # Config information
     config = read_json()
-    database , subject = config["database"], config["subjects"]
+    database , subject = config["database"], str(subject)
 
     # Increase recursion limit for the deep tree analysis
     sys.setrecursionlimit(20000)
 
     # 1. Load the data
     dfs_dict = {}
-    for path, label in zip([path_node_info, path_labels],["cells_clusters_info.csv", "labels.csv"]):
+    for path, label in zip([path_node_info, path_labels],["clusters.csv", "labels_joined.csv"]):
         if path is None:
             dfs_dict[label] = pd.read_csv(os.path.join("input", f"{database}-subject{subject}", f"{label}"))
         else:
             dfs_dict[label] = pd.read_csv(path)
 
-    clusters_df = dfs_dict["cells_clusters_info.csv"]
-    labels_df = dfs_dict["labels.csv"]
+    clusters_df = dfs_dict["clusters.csv"]
+    labels_df = dfs_dict["labels_joined.csv"]
 
     # Use the first column (barcodes) and rename for clarity
     clusters_df.rename(columns={clusters_df.columns[0]: 'item'}, inplace=True)
@@ -46,7 +47,7 @@ def clumpiness_json(path_node_info : str = None,
     cluster_to_items = {}    # leaf cluster -> list of (barcode, label)
 
     for _, row in clusters_df.iterrows():
-        path = str(row['sp_path']).split('/') # e.g., ["25523", ..., "0"]
+        path = str(row['path']).split('/') # e.g., ["25523", ..., "0"]
         item = row['item']
         label = item_label_map.get(item)
         
@@ -103,15 +104,18 @@ def clumpiness_json(path_node_info : str = None,
 
 
 #############################################
-def clumpiness_heatmap(dataset : str = None,
-                       plot_name : str = None):
+def clumpiness_heatmap(subject : int,
+                       dataset : str = None,
+                       plot_name : str = None,
+                       vmin : float = None,
+                       vmax : float = None):
     
     """
     dataset : str -> csv file location, if None then will loog for `clumpiness_data.csv` at the input folder.
     plot_name : str -> descriptive name for the clumpiness heatmap plot file.
     """
 
-    db, subj = read_json()["database"], read_json()["subjects"]
+    db, subj = read_json()["database"], str(subject)
     plot_path = os.path.join("output", f"{db}-subject{subj}", f"clumpiness_heatmap-{plot_name}.png")
 
     if dataset is not None:
@@ -145,7 +149,11 @@ def clumpiness_heatmap(dataset : str = None,
 
             clumpiness_df.loc[i, j] = cell_data
 
-    sns.heatmap(clumpiness_df)
+    sns.heatmap(clumpiness_df,
+                vmin = vmin,
+                vmax = vmax)
+    
+    plt.title(f"Clumpiness Heatmap - {plot_name}")
     plt.savefig(plot_path, bbox_inches='tight')
     print(f"Plot {plot_name} saved to `{plot_path}`.")
     plt.show()
