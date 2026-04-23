@@ -9,10 +9,10 @@
 # PROJECT UPDATE:Too Many Cells processing Pipeline
 
 ## 1. OVERVIEW
-This program aim is to utilize the [too-many-cells](https://gregoryschwartz.github.io/too-many-cells/) spectral clustring
+This program aim's  to utilize the [too-many-cells](https://gregoryschwartz.github.io/too-many-cells/) spectral clustring
 algorithm on [ImmuneDB](https://docs.immunedb.com/en/latest/) format BCR immune reportiores. Our [processing pipeline](https://github.com/dani-f99/tmc_preprocessing)
-prepares the BCR genetic information as unique 20-mer sequqnces crossed with 3-mer utilization whitin them in order to unveil genetic motifs common
-in different BCR sub-populations by the spectral clustring algorithm. The [too-many-cells](https://gregoryschwartz.github.io/too-many-cells/) output is used as input for this program.
+transforms the BCR genetic information into a set of unique 20-mer sequqnces clusterd by their 3-mer utilization using the spectral clustring algorithm from [too-many-cells](https://gregoryschwartz.github.io/too-many-cells/). In this way we identify common motiffs in the protein landscape of different B cell sub populations.
+
 
 
 ## 2. PREREQUISITES

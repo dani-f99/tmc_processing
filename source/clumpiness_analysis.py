@@ -11,11 +11,13 @@ import os
 
 ################################################
 def clumpiness_json(subject : int,
-                    path_node_info : str = None,
-                    path_labels : str = None):
+                    path_clusters : str = None,
+                    path_labels : str = None,
+                    path_output : str = None):
     """
     path_node_info : str -> alternative path of the `clusters.csv` file, defualt path is in `input/db-subject/clusters.csv`.
     path_labels : str -> alternative path for the `labels.csv` file, defualt path is in `output/db-subject/labels_joined.json`.
+    path_output : str -> Path to save the find-clumpiness json file.
     """
 
     # Config information
@@ -27,7 +29,7 @@ def clumpiness_json(subject : int,
 
     # 1. Load the data
     dfs_dict = {}
-    for path, label in zip([path_node_info, path_labels],["clusters.csv", "labels_joined.csv"]):
+    for path, label in zip([path_clusters, path_labels],["clusters.csv", "labels_joined.csv"]):
         if path is None:
             dfs_dict[label] = pd.read_csv(os.path.join("input", f"{database}-subject{subject}", f"{label}"))
         else:
@@ -96,11 +98,13 @@ def clumpiness_json(subject : int,
     # 5. Generate tree from root '0' and save
     final_tree = build_clumpiness_node('0')
 
-    output_path = os.path.join("output", f"{database}-subject{subject}")
-    with open(os.path.join(output_path, 'find_clumpiness_input.json'), 'w') as f:
+    if path_output is None:
+        path_output = os.path.join("output", f"{database}-subject{subject}")
+
+    with open(os.path.join(path_output, 'find_clumpiness_input.json'), 'w') as f:
         json.dump(final_tree, f)
 
-    print(f"`find_clumpiness_input.json` Saved at {output_path}.")
+    print(f"`find_clumpiness_input.json` Saved at {path_output}.")
 
 
 #############################################
